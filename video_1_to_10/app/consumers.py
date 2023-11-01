@@ -1,3 +1,5 @@
+import asyncio
+from time import sleep
 from channels.consumer import SyncConsumer, AsyncConsumer
 from channels.exceptions import StopConsumer
 
@@ -13,10 +15,12 @@ class TestSyncConsumer(SyncConsumer):
     def websocket_receive(self, event):
         print('Message is received........', event)   
         print(event['text'])
-        self.send({
+        for i in range(100):
+            self.send({
             'type': 'websocket.send',
-            'text': 'Message is Sended'
+            'text': str(i)
         }) 
+            sleep(1)
 
     def websocket_disconnect(self, event):
         print('Websocket is Disconnected....', event) 
@@ -36,10 +40,12 @@ class TestAyncConsumer(AsyncConsumer):
     async def websocket_receive(self, event):
         print('Message is received........', event)   
         print(event['text'])
-        await self.send({
-            'type': 'websocket.send',
-            'text': 'Message is Sended'
-        }) 
+        for i in range(100):
+            await self.send({
+                'type': 'websocket.send',
+                'text': str(i)
+                })
+            await asyncio.sleep(i) 
 
     async def websocket_disconnect(self, event):
         print('Websocket is Disconnected....', event) 
