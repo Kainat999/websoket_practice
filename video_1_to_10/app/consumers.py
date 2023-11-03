@@ -15,7 +15,7 @@ class TestSyncConsumer(SyncConsumer):
     def websocket_receive(self, event):
         print('Message is received........', event)   
         print(event['text'])
-        for i in range(100):
+        for i in range(10):
             self.send({
             'type': 'websocket.send',
             'text': str(i)
@@ -40,7 +40,7 @@ class TestAyncConsumer(AsyncConsumer):
     async def websocket_receive(self, event):
         print('Message is received........', event)   
         print(event['text'])
-        for i in range(100):
+        for i in range(10):
             await self.send({
                 'type': 'websocket.send',
                 'text': str(i)
